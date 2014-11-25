@@ -11,6 +11,7 @@ class ParseChefeDeGabinete(GenericParser):
 class SearchChefeDeGabinete(DlSearch):
 	def SetOptions(self):		
 		self.options["f[orgao_facet][]"] = u"TITULOS DE NOMEA\u00C7\u00C3O".encode("utf-8")		
+		self.options["sort"] = u"data desc"		
 
 		
 class ProcessorChefeDeGabinete(ResponseProcessor):
