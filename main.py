@@ -4,7 +4,7 @@ from ChefeDeGabinete import *
 
 searcher = SearchChefeDeGabinete("Gabinete")
 parser = ParseChefeDeGabinete()
-processor = ProcessorChefeDeGabinete(searcher, parser, "registros.log")
+processor = ProcessorChefeDeGabinete(searcher, parser, "registros.log", "ChefeDeGabinete")
 processor.Process()
-		
+
 
