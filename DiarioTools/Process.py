@@ -4,6 +4,7 @@ import json
 import pickle
 import re
 from Log import *
+from ProdamMailer import *
 
 class LastSearch(object):
 	"""To be persisted indicating where last search terminated"""

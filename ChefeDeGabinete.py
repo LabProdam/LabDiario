@@ -18,11 +18,23 @@ class ProcessorChefeDeGabinete(ResponseProcessor):
 	def __init__(self, searchObject, parseObject, fileName, sessionName):
 		super(ProcessorChefeDeGabinete, self).__init__(searchObject, parseObject, sessionName)
 		self.fileName = fileName
+		self.records = []
 		
 	def Persist(self, data):
 		strOut = """Em """ + self.ProcessId(data) + """,  """ + self.ProcessName(data) + """ foi nomeado Chefe de Gabinete """ + self.ProcessGabinete(data) + "\n\n"
+		self.records.append(strOut.encode("utf-8"))
 		with open(self.fileName, "a") as fd:
 			 fd.write(strOut.encode("utf-8"))		 
+
+	def ProcessEnd(self):
+		mailer = ProdamMailer("mailer_config.xml")
+		mailer.AddDestination("pnspin@gmail.com")
+		mailer.SetSubject("Nomeação de Chefes de Gabinete")
+		if (len(self.records) == 0):    
+		    message = """Nenhum Chefe de Gabinete nomeado neste período"""
+		else:
+		    message = "\r\n".join(self.records)
+		mailer.Send(message)
 
 	def ProcessId(self, data):
 		idRe = re.search("^(\d{4}).(\d{2}).(\d{2})", self.doc["id"])
