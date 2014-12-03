@@ -27,8 +27,7 @@ class ProcessorChefeDeGabinete(ResponseProcessor):
 			 fd.write(strOut.encode("utf-8"))		 
 
 	def ProcessEnd(self):
-		mailer = ProdamMailer("mailer_config.xml")
-		mailer.AddDestination("pnspin@gmail.com")
+		mailer = ProdamMailer("mailer_config.xml")		
 		mailer.SetSubject("Nomeação de Chefes de Gabinete")
 		if (len(self.records) == 0):    
 		    message = """Nenhum Chefe de Gabinete nomeado neste período"""
