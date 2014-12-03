@@ -1,7 +1,7 @@
 ProdamLab - Nomeação de Chefes de Gabinete
 ==========================================
 
-Busca Nomeações de Chefes de Gabinetes das secretarias do município de São Paulo no DiárioLivre.
+Busca Nomeações de Chefes de Gabinetes das secretarias do município de São Paulo no [DiárioLivre](http://devcolab.each.usp.br/do/).
 Faz uma busca completa na primeira vez e apenas busca informações novas nas execuções subsequentes
 
 Antes de Usar
