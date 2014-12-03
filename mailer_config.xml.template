@@ -1,0 +1,14 @@
+<MailerConfig>
+    <User></User>
+    <Password></Password>
+    <From></From>
+    <SubjectPrefix>Prodam Mailer Robot - </SubjectPrefix>
+    <ServerAddress></ServerAddress>
+    <ServerPort></ServerPort>
+    <To>
+	<Email></Email>	
+    </To>
+    <Header>ProdamLab informa,</Header>
+    <Footer>Obrigado,
+ProdamLab</Footer>
+</MailerConfig>

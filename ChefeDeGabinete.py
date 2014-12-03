@@ -32,6 +32,7 @@ class ProcessorChefeDeGabinete(ResponseProcessor):
 		mailer.SetSubject("Nomeação de Chefes de Gabinete")
 		if (len(self.records) == 0):    
 		    message = """Nenhum Chefe de Gabinete nomeado neste período"""
+		    Log.Log("Sem Alterações")
 		else:
 		    message = "\r\n".join(self.records)
 		mailer.Send(message)
