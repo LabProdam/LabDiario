@@ -9,15 +9,15 @@ from Tkinter import *
 
 class DlSearch(object):
 	"""Searcher module. Connects to colab and search the passed arguments"""
-	def __init__(self, jsonFormat = False):
+	def __init__(self, configuration, jsonFormat = False):
+		self.configuration = configuration
 		self.baseUrl = "http://devcolab.each.usp.br"
 		self.options = {}
 		self.query = None;
-		
 		self.queryAddr = "/do/?"
 		if jsonFormat:
-			self.queryAddr = "/do/catalog.json?"		
-		
+			self.queryAddr = "/do/catalog.json?"
+
 	def SetOptions(self):
 		""" To be implemented by children"""
 		pass
@@ -34,7 +34,7 @@ class DlSearch(object):
 				self.options["q"] = query
 			elif self.query is not None:
 				self.options["q"] = self.query
-			retriever = Retriever(self.baseUrl, self.queryAddr, self.options)
+			retriever = Retriever(self.baseUrl, self.queryAddr, self.options, self.configuration)
 			contents = retriever.Retrieve()
 			if contents is not None:
 				yield contents

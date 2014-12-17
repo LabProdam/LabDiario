@@ -12,7 +12,7 @@ class ParseSubstituicaoChefeDeGabinete(GenericParser):
 class SearchSubstituicaoChefeDeGabinete(DlSearch):
 	def SetOptions(self):		
 		self.options["sort"] = u"data desc"
-		self.query = "substituir chefe de gabinete"
+		self.query = "substituir chefe de gabinete"		
 
 class ProcessorSubstituicaoChefeDeGabinete(ResponseProcessor):
 	def __init__(self, configInstance, searchObject, parseObject, fileName, sessionName):

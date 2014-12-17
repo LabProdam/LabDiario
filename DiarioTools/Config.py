@@ -31,6 +31,7 @@ class Configuration(object):
 		self.header = tree.find("./Header").text
 		self.footer = tree.find("./Footer").text
 		self.baseDate = tree.find("./BaseDate").text
+		self.proxy = tree.find("./Proxy").text
 		
 		emails = tree.findall("./To/Email")
 		for email in emails:
