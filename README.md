@@ -15,7 +15,7 @@ Antes de Usar
 Requisitos
 ----------
 - Python 2.7
-- Conta de e-mail válida para envio de e-mails.
+- Conta gmail válida para envio de e-mails.
 
 Desenvolvedores
 ---------------
