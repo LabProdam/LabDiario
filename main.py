@@ -27,8 +27,11 @@ def HandleSubstituicao(configInstance):
 import os
 try:
     config = Configuration("config.xml")
+    Log.Log("Searching Nomeacoes")
     messages = HandleNomeacao(config)
+    Log.Log("Searching Exoneracoes")
     messages += HandleExoneracao(config)
+    Log.Log("Searching Substituicoes")
     messages += HandleSubstituicao(config)
 
     mailer = ProdamMailer(config)    

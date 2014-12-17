@@ -2,7 +2,6 @@
 #coding: utf-8
 from Log import *
 from xml.etree.ElementTree import *
-
 import os
 
 validConfig = False
@@ -13,6 +12,7 @@ def IfValidConfig(func):
     return decorated
 
 class Configuration(object):
+    """ Basic configuration. Read from xml and make available in config instance"""
     def __init__(self,configFileName):
 	self.destination = []
 	self._ProcessConfigFile(configFileName)

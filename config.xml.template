@@ -11,4 +11,5 @@
     <Header>ProdamLab informa,</Header>
     <Footer>Obrigado,
 ProdamLab</Footer>
+    <BaseDate>2014/11/27</BaseDate> <!-- AAAA/MM/DD . Will stop before this date!-->
 </MailerConfig>

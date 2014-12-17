@@ -28,7 +28,7 @@ class ProcessorNomeacaoChefeDeGabinete(ResponseProcessor):
 
 	def ProcessEnd(self):
 		if (len(self.records) == 0):    
-		    message = """Nenhum Chefe de Gabinete nomeado neste período\r\n"""
+		    message = """Nenhum Chefe de Gabinete nomeado neste período\r\n\r\n"""
 		    Log.Log("Sem Alterações")
 		else:
 		    message = "\r\n".join(self.records)
