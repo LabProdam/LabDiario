@@ -9,8 +9,8 @@ execuções subsequentes
 Antes de Usar
 -------------
 
-- Renomear config.xml.template para mailer.config.xml
-- Editar configurações de envio de e-mail em mailer_config.xml
+- Renomear config.xml.template para config.xml
+- Editar configurações de envio de e-mail em config.xml
 
 Requisitos
 ----------
