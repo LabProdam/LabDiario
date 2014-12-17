@@ -1,8 +1,8 @@
 #!/usr/bin/python
 #coding: utf-8
-from NomeacaoChefeDeGabinete import *
-from ExoneracaoChefeDeGabinete import *
-from SubstituicaoChefeDeGabinete import *
+from ChefeDeGabinete.Nomeacao import *
+from ChefeDeGabinete.Exoneracao import *
+from ChefeDeGabinete.Substituicao import *
 from DiarioTools.Config import Configuration
 from DiarioTools.ProdamMailer import *
 
@@ -36,7 +36,6 @@ try:
 
     mailer = ProdamMailer(config)    
     mailer.Send(messages)
-
 except Exception as e:
     Log.Warning("Problemas encontrados durante a execução do script")
     Log.Warning(str(e))
