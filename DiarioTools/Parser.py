@@ -2,12 +2,14 @@
 #coding: utf-8
 import re
 class GenericParser(object):
+	""" Given a set of regular expressions, evaluate them and convert groups
+	of interest into array"""
 	def __init__(self):
 		self.expressions = []
 		self.Initialize()
 	
 	def Initialize(self):
-		"""Override this methos"""
+		"""Override this method"""
 		pass
 	
 	def AddExpression(self, reExpression, groupsOfInterest, flags = None):

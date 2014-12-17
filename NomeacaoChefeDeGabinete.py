@@ -5,44 +5,34 @@ from DiarioTools.Process import *
 from DiarioTools.Search import *
 import re
 
-class ParseChefeDeGabinete(GenericParser):
+class ParseNomeacaoChefeDeGabinete(GenericParser):
 	def Initialize(self):
 		self.AddExpression("^\s*Nomear.*?(senhora|senhor)\s*([^,]*).*?Chefe de Gabinete.(.*)", [2,3], re.I|re.M)
 
-class SearchChefeDeGabinete(DlSearch):
+class SearchNomeacaoChefeDeGabinete(DlSearch):
 	def SetOptions(self):		
 		self.options["f[orgao_facet][]"] = u"TITULOS DE NOMEA\u00C7\u00C3O".encode("utf-8")		
 		self.options["sort"] = u"data desc"		
 
-class ProcessorChefeDeGabinete(ResponseProcessor):
-	def __init__(self, searchObject, parseObject, fileName, sessionName):
-		super(ProcessorChefeDeGabinete, self).__init__(searchObject, parseObject, sessionName)
+class ProcessorNomeacaoChefeDeGabinete(ResponseProcessor):
+	def __init__(self, configInstance, searchObject, parseObject, fileName, sessionName):
+		super(ProcessorNomeacaoChefeDeGabinete, self).__init__(configInstance, searchObject, parseObject, sessionName)
 		self.fileName = fileName
 		self.records = []
 		
 	def Persist(self, data):
-		strOut = """Em """ + self.ProcessId(data) + """,  """ + self.ProcessName(data) + """ foi nomeado Chefe de Gabinete """ + self.ProcessGabinete(data) + "\n\n"
+		strOut = """Em """ + self.GetDateFromId() + """,  """ + self.ProcessName(data) + """ foi nomeado Chefe de Gabinete """ + self.ProcessGabinete(data) + "\n\n"
 		self.records.append(strOut.encode("utf-8"))
 		with open(self.fileName, "a") as fd:
 			 fd.write(strOut.encode("utf-8"))		 
 
 	def ProcessEnd(self):
-		mailer = ProdamMailer("mailer_config.xml")		
-		mailer.SetSubject("Nomeação de Chefes de Gabinete")
 		if (len(self.records) == 0):    
-		    message = """Nenhum Chefe de Gabinete nomeado neste período"""
+		    message = """Nenhum Chefe de Gabinete nomeado neste período\r\n"""
 		    Log.Log("Sem Alterações")
 		else:
 		    message = "\r\n".join(self.records)
-		mailer.Send(message)
-
-	def ProcessId(self, data):
-		idRe = re.search("^(\d{4}).(\d{2}).(\d{2})", self.doc["id"])
-		if idRe is not None:
-		    dateFromId = idRe.group(3) + "/" + idRe.group(2) + "/" + idRe.group(1)
-		else:
-		    dateFromId = self.doc["id"]
-		return dateFromId
+		return message
 
 	def ProcessName(self, data):
 		return data[0]

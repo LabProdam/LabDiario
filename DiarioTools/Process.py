@@ -6,41 +6,55 @@ import re
 from Log import *
 from ProdamMailer import *
 
+def IsNewer(id, other):
+    newer = False
+
+    if id is not None:
+	pId = ProcessId(id)
+    else:
+	pId = 0
+
+    if other is not None:
+	other = ProcessId(other)	
+    else:
+	other = 0
+
+
+    if (pId > other):
+	newer = True
+
+    return newer
+
+def ProcessId(id):
+    idRe = re.search("^(\d{4}).(\d{2}).(\d{2})", id)
+    if idRe is not None:
+	id = int(idRe.group(1) + idRe.group(2) + idRe.group(3)) 
+    else:
+	raise "Invalid Id"
+    return id
+
 class LastSearch(object):
 	"""To be persisted indicating where last search terminated"""
 	def __init__(self):
-	    self.latest = 0
-	    self.candidate = 0
+	    self.latest = None
+	    self.candidate = None
 
-	def SetCandidate(self, id):
-	    processedId = self._ProcessId(id)	    
-	    if (processedId > self.candidate):
-		self.candidate = processedId
+	def SetCandidate(self, id):	   
+	    if IsNewer(id, self.candidate):
+		self.candidate = id
 
 	def SetLatestFromCandidate(self):
-	    if self.candidate > self.latest:
+	    if IsNewer(self.candidate, self.latest):
 		self.latest = self.candidate
-		self.candidate = 0
+		self.candidate = None
 
 	def IsNewer(self, id):
-	    newer = False
-	    pId = self._ProcessId(id)	    
-	    if (pId > self.latest):
-		newer = True
-
-	    return newer
-
-	def _ProcessId(self, id):
-	    idRe = re.search("^(\d{4}).(\d{2}).(\d{2})", id)
-	    if idRe is not None:
-		id = int(idRe.group(1) + idRe.group(2) + idRe.group(3)) 
-	    else:
-		raise "Invalid Id"
-	    return id
-
+	    return IsNewer(id, self.latest)
+	    	
 class ResponseProcessor(object):
 	"""Process received response"""
-	def __init__(self, searchObject, parseObject, sessionName):
+	def __init__(self, configInstance, searchObject, parseObject, sessionName):
+		self.configuration = configInstance
 		self.searchObject = searchObject
 		self.parseObject = parseObject
 		self.sessionName = sessionName
@@ -58,11 +72,15 @@ class ResponseProcessor(object):
 		    
 		    for doc in docs:
 			self.doc = doc
-			if (self.lastSearch is not None and self.lastSearch.IsNewer(doc['id'])):
+			if (self.lastSearch is not None and 
+			    self.lastSearch.IsNewer(doc['id']) and 
+			    IsNewer(doc['id'], self.configuration.baseDate)):
+
 			    self.lastSearch.SetCandidate(doc['id'])
 			    for response in self.parseObject.Parse(doc['texto']):
 				    self.Persist(response)
-			else:
+			else:			   
+			    Log.Log("Iteration Over")
 			    return
 
 	def ProcessEnd(self):
@@ -75,9 +93,10 @@ class ResponseProcessor(object):
 
 	    self._ProcessIterate()
 	    self.lastSearch.SetLatestFromCandidate()
-	    self.ProcessEnd()
+	    retVal = self.ProcessEnd()
 
 	    self._SavePersistedFile(pickleFileName)
+	    return retVal
 
 	def _LoadPersistedFile(self, pickleFileName):	    
 	    try:
@@ -91,7 +110,15 @@ class ResponseProcessor(object):
 	def _SavePersistedFile(self, pickleFileName):
 	    with open(pickleFileName, "w") as fd:
 		pickle.dump(self.lastSearch, fd)		
-					
+			
+    	def GetDateFromId(self):
+		idRe = re.search("^(\d{4}).(\d{2}).(\d{2})", self.doc["id"])
+		if idRe is not None:
+		    dateFromId = idRe.group(3) + "/" + idRe.group(2) + "/" + idRe.group(1)
+		else:
+		    dateFromId = self.doc["id"]
+		return dateFromId
+		
 	def Persist(self, data):
 		"""To be implemented on child"""
 		pass

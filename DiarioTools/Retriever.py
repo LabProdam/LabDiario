@@ -5,6 +5,7 @@ import urllib
 import re
 
 class Retriever(object):
+	""" Retrieves html contents from URL"""
 	def __init__(self, baseUrl, queryAddr, options):
 		self.baseUrl = baseUrl
 		self.queryAddr = queryAddr
