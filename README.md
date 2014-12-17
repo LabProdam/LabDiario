@@ -14,11 +14,13 @@ Antes de Usar
 
 Requisitos
 ----------
+
 - Python 2.7
 - Conta gmail válida para envio de e-mails.
 
 Desenvolvedores
 ---------------
+
 A interface básica para busca no diário livre já existe. Para implementar uma 
 nova busca é necessário herdar de *DlSearch* para incluir as opções de busca, de
 *GenericParser* para incluir as expressões regulares que filtrarão os resultados
