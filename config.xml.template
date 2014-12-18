@@ -2,15 +2,15 @@
     <User></User>
     <Password></Password>
     <From></From>
-    <SubjectPrefix>Prodam Mailer Robot - </SubjectPrefix>
+    <SubjectPrefix>LabProdam Mailer Robot - </SubjectPrefix>
     <ServerAddress></ServerAddress>
     <ServerPort></ServerPort>
     <To>
 	<Email></Email>	
     </To>
-    <Header>ProdamLab informa,</Header>
+    <Header>LabProdam informa,</Header>
     <Footer>Obrigado,
-ProdamLab</Footer>
+LabProdam</Footer>
     <BaseDate>2014/11/27</BaseDate> <!-- AAAA/MM/DD . Will stop before this date
  when initial/final dates are not explicited!-->
     <Proxy></Proxy> <!-- http proxy only, eg: http://localhost:8080. Empty for none-->

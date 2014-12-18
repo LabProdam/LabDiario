@@ -25,7 +25,7 @@ def HandleSubstituicao(configInstance):
     processor = ProcessorSubstituicaoChefeDeGabinete(configInstance, searcher, parser, configInstance.logName, "SubstituicaoChefeDeGabinete")
     return processor.Process()
 
-import os
+import datetime
 try:
     config = Configuration("config.xml", sys.argv)    
     Log.Log("Procurando Nomeacoes")
@@ -36,6 +36,7 @@ try:
     messages += HandleSubstituicao(config)
 
     if (config.mode == "alert mode"):
+	messages = "Relatório de " + datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S") + "\r\n\r\n" + messages
 	Log.Log("Enviando E-Mail")
 	mailer = ProdamMailer(config)
 	mailer.Send(messages)

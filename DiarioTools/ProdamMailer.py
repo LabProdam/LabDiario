@@ -3,6 +3,9 @@
 from smtplib import *
 from Log import *
 from Config import Configuration, IfValidConfig
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.header import Header
 
 import re
 import socket
@@ -64,25 +67,25 @@ class ProdamMailer(object):
   
     @IfValidConfig
     def _PrepareMessage(self, messageText):
-    	message = "from: " + self.config.frommail + "\r\n"
-	message += "to: " + ";".join(self.config.destination) + "\r\n"
-	message += "subject: " + self.config.subject + "\r\n"
-	message += "mime-version: 1.0\r\n"
-	message += "content-tupe: text/plain\r\n\r\n"
-	message += self.config.header + "\r\n\r\n"
-	message += messageText.decode("utf-8")
-	message += "\r\n\r\n" + self.config.footer	
-	return message.encode("utf-8")
+	multipart = MIMEMultipart('alternative')
+    	#multipart["From"] = Header(self.config.frommail.encode("utf-8"), "UTF-8").encode()
+    	#multipart["To"] = Header("; ".join(self.config.destination).encode("utf-8"), "UTF-8").encode()
+    	multipart["Subject"] = Header(self.config.subject.encode("utf-8"), "UTF-8").encode()
+
+	body = self.config.header + "\r\n\r\n"
+	body += messageText.decode("utf-8")
+	body += "\r\n\r\n" + self.config.footer
+	multipart.attach(MIMEText(body.encode("utf-8"), 'plain', 'UTF-8'))
+	return multipart.as_string()
 
     @IfValidConfig    
     def Send(self, messageText):    
-	message = self._PrepareMessage(messageText)
-    
+	message = self._PrepareMessage(messageText)	
 	try:
 	    server = ProxiedSMTP(self.config.proxy, self.config.serverAddr, self.config.serverPort)
 	    server.starttls()
 	    server.login(self.config.username, self.config.password)
-	    server.sendmail(self.config.frommail, ";".join(self.config.destination),message)
+	    server.sendmail(self.config.frommail, self.config.destination, message)
 	    server.quit()
 	    Log.Log("E-mail enviado")
 	except:

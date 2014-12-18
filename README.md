@@ -46,7 +46,7 @@ Dentro do arquivo *config.xml* deve constar:
 - **Subject**: assunto do e-mail de resultados;
 - **ServerAddress**: endereço do servidor SMTP utilizado para enviar e-mails;
 - **ServerPort**: porta do servidor SMTP utilizado para enviar e-mails;
-- **To**: lista de destinatários. Cas um dentro de seu respectivo **Email**;
+- **To**: lista de destinatários. Cada um dentro de seu respectivo **Email**;
 - **Header**: cabeçalho do e-mail de resultados;
 - **Footer**: rodapé do e-mail de resultados;
 - **BaseDate**: especifica data de parada da ferramenta no caso da primeira
