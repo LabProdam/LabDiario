@@ -7,7 +7,7 @@ import re
 
 class ParseSubstituicaoChefeDeGabinete(GenericParser):
 	def Initialize(self):
-		self.AddExpression("^.*?(senhora|senhor)\s*([^,]*).*?Substituir.*?(senhora|senhor)\s*([^,]*).*?(chefe de gabinete.*)", [2,4,5], re.I|re.M)
+		self.AddExpression("^.*?(senhora|senhor) *([^,]*).{0,200}?Substituir.{0,200}?(senhora|senhor) *([^,]*).{0,200}?(chefe de gabinete.*)", [2,4,5], re.I|re.M)
 
 class SearchSubstituicaoChefeDeGabinete(DlSearch):
 	def SetOptions(self):		

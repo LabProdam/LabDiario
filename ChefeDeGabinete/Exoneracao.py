@@ -7,7 +7,7 @@ import re
 
 class ParseExoneracaoChefeDeGabinete(GenericParser):
 	def Initialize(self):
-		self.AddExpression("^\s*Exonerar.*?(senhora|senhor)\s*([^,]*).*?Chefe de Gabinete.(.*)", [2,3], re.I|re.M)
+		self.AddExpression("^\s*Exonerar.{0:200}?(senhora|senhor)\s*([^,]*).{0:200}?Chefe de Gabinete.(.*)", [2,3], re.I|re.M)
 
 class SearchExoneracaoChefeDeGabinete(DlSearch):
 	def SetOptions(self):		

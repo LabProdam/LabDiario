@@ -1,5 +1,6 @@
 #!/usr/bin/python
 #coding: utf-8
+from Log import *
 import re
 class GenericParser(object):
 	""" Given a set of regular expressions, evaluate them and convert groups
@@ -21,9 +22,9 @@ class GenericParser(object):
 				matches = re.finditer(expression, content, flags) 
 			else:
 				matches = re.finditer(expression, content)			
+			
 			for match in matches:				
 				matchGroups = []
 				for group in groupsOfInterest:
 					matchGroups.append(match.group(group))
-				yield matchGroups
-				
+				yield matchGroups			
