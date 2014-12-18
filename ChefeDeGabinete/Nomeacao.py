@@ -10,7 +10,7 @@ class ParseNomeacaoChefeDeGabinete(GenericParser):
 		self.AddExpression("^\s*Nomear.*?(senhora|senhor)\s*([^,]*).*?Chefe de Gabinete.(.*)", [2,3], re.I|re.M)
 
 class SearchNomeacaoChefeDeGabinete(DlSearch):
-	def SetOptions(self):		
+	def SetOptions(self):
 		self.options["f[orgao_facet][]"] = u"TITULOS DE NOMEA\u00C7\u00C3O".encode("utf-8")		
 		self.options["sort"] = u"data desc"		
 
@@ -19,6 +19,9 @@ class ProcessorNomeacaoChefeDeGabinete(ResponseProcessor):
 		super(ProcessorNomeacaoChefeDeGabinete, self).__init__(configInstance, searchObject, parseObject, sessionName)
 		self.fileName = fileName
 		self.records = []
+
+		with open(self.fileName, "a") as fd:
+			 fd.write("*** Nomeações ***\r\n")
 		
 	def Persist(self, data):
 		strOut = """Em """ + self.GetDateFromId() + """,  """ + self.ProcessName(data) + """ foi nomeado Chefe de Gabinete """ + self.ProcessGabinete(data) + "\n\n"
@@ -27,11 +30,12 @@ class ProcessorNomeacaoChefeDeGabinete(ResponseProcessor):
 			 fd.write(strOut.encode("utf-8"))		 
 
 	def ProcessEnd(self):
+		message = "*** Nomeações ***\r\n"
 		if (len(self.records) == 0):    
-		    message = """Nenhum Chefe de Gabinete nomeado neste período\r\n\r\n"""
+		    message += """Nenhum Chefe de Gabinete nomeado neste período\r\n\r\n"""
 		    Log.Log("Sem Alterações")
 		else:
-		    message = "\r\n".join(self.records)
+		    message += "\r\n".join(self.records)
 		return message
 
 	def ProcessName(self, data):

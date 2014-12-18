@@ -18,6 +18,11 @@ class DlSearch(object):
 		if jsonFormat:
 			self.queryAddr = "/do/catalog.json?"
 
+	def SetDateOptions(self):
+		if self.configuration.mode == "local search":
+		    self.options["date_range"] = "data:[" + self.configuration.startDate + " TO "+ self.configuration.endDate + "]"
+		    self.options["f[data][]"] = "date_range"
+
 	def SetOptions(self):
 		""" To be implemented by children"""
 		pass
@@ -25,6 +30,7 @@ class DlSearch(object):
 	def Search(self, query=None):
 		"""Searches accorgind to options set on SetOptions and query 
 		passed as argument or class attribute"""
+		self.SetDateOptions()
 		self.SetOptions()
 		i = 0;
 		while True:			

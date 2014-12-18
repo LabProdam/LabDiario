@@ -19,6 +19,9 @@ class ProcessorExoneracaoChefeDeGabinete(ResponseProcessor):
 		super(ProcessorExoneracaoChefeDeGabinete, self).__init__(configInstance, searchObject, parseObject, sessionName)
 		self.fileName = fileName
 		self.records = []
+
+		with open(self.fileName, "a") as fd:
+			 fd.write("*** Exonerações ***\r\n")
 		
 	def Persist(self, data):
 		strOut = """Em """ + self.GetDateFromId() + """,  """ + self.ProcessName(data) + """ foi exonerado do cargo Chefe de Gabinete """ + self.ProcessGabinete(data) + "\n\n"
@@ -26,12 +29,13 @@ class ProcessorExoneracaoChefeDeGabinete(ResponseProcessor):
 		with open(self.fileName, "a") as fd:
 			 fd.write(strOut.encode("utf-8"))
 
-	def ProcessEnd(self):		
+	def ProcessEnd(self):
+		message = "*** Exonerações ***\r\n"
 		if (len(self.records) == 0):    
-		    message = """Nenhum Chefe de Gabinete exonerado neste período\r\n\r\n"""
+		    message += """Nenhum Chefe de Gabinete exonerado neste período\r\n\r\n"""
 		    Log.Log("Sem Alterações")
 		else:
-		    message = "\r\n".join(self.records)
+		    message += "\r\n".join(self.records)
 		return message
 
 	def ProcessName(self, data):

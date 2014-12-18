@@ -72,7 +72,10 @@ class ResponseProcessor(object):
 		    
 		    for doc in docs:
 			self.doc = doc
-			if (self.lastSearch is not None and 
+			if self.configuration.mode == "local search":#Meaning start/end dates were not passed
+			    for response in self.parseObject.Parse(doc['texto']):
+				    self.Persist(response)
+			elif (self.lastSearch is not None and
 			    self.lastSearch.IsNewer(doc['id']) and 
 			    IsNewer(doc['id'], self.configuration.baseDate)):
 

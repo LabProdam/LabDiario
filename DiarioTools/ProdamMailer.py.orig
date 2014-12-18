@@ -12,23 +12,23 @@ class ProxyException(Exception):
     def __str__(self):
 	return "Proxy Connection Error"
 
-class ProxiedSMTP(SMTP, object):
+class ProxiedSMTP(SMTP):
 	""" Implement proxy layer above SMTP """
-	def __init__(self, proxy = None, host="", port=0, local_hostname=None, timeout=socket._GLOBAL_DEFAULT_TIMEOUT):
-	    self.ProcessProxy(proxy)
+	def __init__(self, proxy = None, host='', port=0, local_hostname=None,
+                 timeout=socket._GLOBAL_DEFAULT_TIMEOUT):
 	    super(ProxiedSMTP, self).__init__(host, port, local_hostname, timeout)
+	    self.ProcessProxy(proxy)
 
 	def ProcessProxy(self, proxy):
 	    self.proxyHost = None
 	    self.proxyPort = 0
 
-	    if proxy is not None:
-		proxyRe = re.search("://([^:]*):(\d*)", proxy)
-		if proxyRe is not None:
-		    self.proxyHost = socket.gethostbyname(proxyRe.group(1))		
-		    self.proxyPort = int(proxyRe.group(2))
+	    proxyRe = re.search("://([^:]*):(\d*))", proxy)
+	    if proxyRe is not None:
+		self.proxyHost = proxyRe.group(1)
+		self.proxyPort = int(proxyRe.group(2))
 
-	def _get_socket(self, port, host, timeout):
+        def _get_socket(self, port, host, timeout):
 	    # This makes it simpler for SMTP_SSL to use the SMTP connect code
 	    # and just alter the socket connection bit.
 	    if self.proxyHost is None or len(self.proxyHost) <= 0:
@@ -36,22 +36,14 @@ class ProxiedSMTP(SMTP, object):
 		    print>>stderr, 'connect:', (host, port)
 		return socket.create_connection((port, host), timeout)
 	    else: #If proxy set
-#		try:
-		connSock = socket.create_connection((self.proxyHost, self.proxyPort), timeout)
-		print "Connline: " + "CONNECT %s:%s HTTP/1.1\r\n\r\n" %(port,  host)
-		connSock.sendall("CONNECT %s:%s HTTP/1.1\r\n\r\n" %(port,  host))
-		rcv = connSock.recv(2048)
-		print rcv
-		result = re.search("\s(\d+)", rcv)
-		if result:	
-			code = int(result.group(1))
-			if code == 200:
-				print "Connection successfull"
-				return connSock
-			else:
-				raise ProxyException()			
-#		except:
-#			raise ProxyException()
+		try:
+		    connSock = socket.create_connection((self.proxyPort, self.proxyHost), timeout)
+		    connSock.sendall("CONNECT %s:%d HTTP/1.1\r\n\r\n" %(host,  port))
+		    connSock.recv(2048) #parse it
+		    connSock.recv(2048) #parse it
+		    return connSock
+		except:
+		    raise ProxyException()
 
 
 class ProdamMailer(object):
