@@ -22,6 +22,7 @@ Requisitos
 
 Uso
 ---
+
 A ferramenta possui dois modos de funcionamento:
 
 - **Sem argumentos**: a ferramenta buscará sempre informações novas a partir da 
@@ -30,13 +31,14 @@ a primeira vez que o aplicativo é executado. Ao final do processo um e-mail ser
  enviado para os destinatários presentes no arquivo de configuração com as
 entradas encontradas.
 - **Com argumentos -s e -e no formato dd/mm/aaaa**: a ferramenta buscará os
-registros no intervalo especificado entre *-s* e *-e*. (ex: main.py -s 
-01/01/2014 -e 01/02/2014) Nenhum e-mail será
+registros no intervalo especificado entre *-s* e *-e*. (**ex:** main.py -s 
+01/01/2014 -e 01/02/2014). Nenhum e-mail será
 enviado. Apenas o log será atualizado.
 
 Configuração
 ------------
-Dentro do arquivo *config.xml* deve constar
+
+Dentro do arquivo *config.xml* deve constar:
 
 - **User**: usuário da conta de e-mail utilizada para postar resultados;
 - **Password**: senha da conta de e-mail utilizada para postar resultados;
