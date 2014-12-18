@@ -11,5 +11,9 @@
     <Header>ProdamLab informa,</Header>
     <Footer>Obrigado,
 ProdamLab</Footer>
-    <BaseDate>2014/11/27</BaseDate> <!-- AAAA/MM/DD . Will stop before this date!-->
+    <BaseDate>2014/11/27</BaseDate> <!-- AAAA/MM/DD . Will stop before this date
+ when initial/final dates are not explicited!-->
+    <Proxy></Proxy> <!-- http proxy only, eg: http://localhost:8080. Empty for none-->
+    <LogName>ChefesDeGabinete.log</LogName>
+    <LogMode>Overwrite</LogMode> <!-- Overwrite / Append -->    
 </MailerConfig>

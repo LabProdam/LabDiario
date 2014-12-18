@@ -35,7 +35,7 @@ try:
     Log.Log("Procurando Substituicoes")
     messages += HandleSubstituicao(config)
 
-    if (config.mail and config.mode == "alert mode"):
+    if (config.mode == "alert mode"):
 	Log.Log("Enviando E-Mail")
 	mailer = ProdamMailer(config)
 	mailer.Send(messages)

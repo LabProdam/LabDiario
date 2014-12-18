@@ -77,8 +77,7 @@ Argumentos:
 		self.baseDate = tree.find("./BaseDate").text
 		self.proxy = tree.find("./Proxy").text
 		self.logName = tree.find("./LogName").text
-		self._ProcessCleanLogs(tree.find("./LogMode").text, self.logName)
-		self.mail = re.search("True", tree.find("./Mail").text, re.I) is not None
+		self._ProcessCleanLogs(tree.find("./LogMode").text, self.logName)		
 		
 		emails = tree.findall("./To/Email")
 		for email in emails:
