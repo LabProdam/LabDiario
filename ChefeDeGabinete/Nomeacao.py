@@ -42,17 +42,22 @@ class ProcessorNomeacaoChefeDeGabinete(ResponseProcessor):
 		return data[0]
     
 	def ProcessGabinete(self, data):
-		gabineteRe = re.search("(Secretaria|Subprefeitura)\s*,?\s*([^,]*)", data[1], re.I)
+		gabineteRe = re.search("(Controladoria|Secretaria|Subprefeitura|Superintend.ncia)\s*,?\s*([^,]*)", data[1], re.I)
 		if gabineteRe is not None:
 		    gabineteFromData = gabineteRe.group(0)
 		    gabineteFromData = "da " + gabineteFromData
 		else:
-		    gabineteRe = re.search("^([^,]*).\s*s.mbolo", data[1], re.I)
+		    gabineteRe = re.search("(Instituto|Servi.o)\s*,?\s*([^,]*)", data[1], re.I)
 		    if gabineteRe is not None:
-			gabineteFromData = gabineteRe.group(1)			
+			gabineteFromData = gabineteRe.group(0)
+			gabineteFromData = "do " + gabineteFromData
 		    else:
-			gabineteFromData = data[1]
-			gabineteFromData = re.sub("s.mbolo \w*,", "", gabineteFromData, re.I)
-			gabineteFromData = re.sub(",?\s*constante.*$", "", gabineteFromData, re.I)
-			gabineteFromData = re.sub(",?\s*da Chefia de Gabinete[^,]*x", "", gabineteFromData, re.I)
+			gabineteRe = re.search("^([^,]*).\s*s.mbolo", data[1], re.I)
+			if gabineteRe is not None:
+			    gabineteFromData = gabineteRe.group(1)			
+			else:
+			    gabineteFromData = data[1]
+			    gabineteFromData = re.sub("s.mbolo \w*,", "", gabineteFromData, re.I)
+			    gabineteFromData = re.sub(",?\s*constante.*$", "", gabineteFromData, re.I)
+			    gabineteFromData = re.sub(",?\s*da Chefia de Gabinete[^,]*x", "", gabineteFromData, re.I)
 		return gabineteFromData

@@ -43,5 +43,6 @@ try:
 except Exception as e:
     Log.Warning("Problemas encontrados durante a execução do script")
     Log.Warning(str(e))
+    raise
 
 

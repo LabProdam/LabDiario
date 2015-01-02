@@ -7,7 +7,7 @@ import re
 
 class ParseExoneracaoChefeDeGabinete(GenericParser):
 	def Initialize(self):
-		self.AddExpression("^\s*Exonerar.{0:200}?(senhora|senhor)\s*([^,]*).{0:200}?Chefe de Gabinete.(.*)", [2,3], re.I|re.M)
+		self.AddExpression("^\s*Exonerar.{0,1000}?(senhora|senhor)([^,]+).{0,400}?Chefe de Gabinete.(.+)", [2,3], re.I|re.M)
 
 class SearchExoneracaoChefeDeGabinete(DlSearch):
 	def SetOptions(self):		
@@ -42,7 +42,7 @@ class ProcessorExoneracaoChefeDeGabinete(ResponseProcessor):
 		return data[0]
     
 	def ProcessGabinete(self, data):
-		gabineteRe = re.search("(Secretaria|Subprefeitura|Superintend.ncia)\s*,?\s*([^,]*)", data[1], re.I)
+		gabineteRe = re.search("(Controladoria|Secretaria|Subprefeitura|Superintend.ncia)\s*,?\s*([^,]*)", data[1], re.I)
 		if gabineteRe is not None:
 		    gabineteFromData = gabineteRe.group(0)
 		    gabineteFromData = "da " + gabineteFromData

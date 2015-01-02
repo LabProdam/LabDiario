@@ -7,7 +7,7 @@ import re
 
 class ParseSubstituicaoChefeDeGabinete(GenericParser):
 	def Initialize(self):
-		self.AddExpression("^.*?(senhora|senhor) *([^,]*).{0,200}?Substituir.{0,200}?(senhora|senhor) *([^,]*).{0,200}?(chefe de gabinete.*)", [2,4,5], re.I|re.M)
+		self.AddExpression("^.*?(senhora|senhor)([^,]+).{0,100}?Per.odo de ([^,]*).{0,100}?Substituir.{0,300}?(senhora|senhor)([^,]+).{0,300}?(chefe de gabinete.*)", [2,5,6,3], re.I|re.M)
 
 class SearchSubstituicaoChefeDeGabinete(DlSearch):
 	def SetOptions(self):		
@@ -24,7 +24,7 @@ class ProcessorSubstituicaoChefeDeGabinete(ResponseProcessor):
 			 fd.write("*** Substituições ***\r\n")
 		
 	def Persist(self, data):
-		strOut = """Em """ + self.GetDateFromId() + """,  """ + self.ProcessName1(data) + """ substitui """ + self.ProcessName2(data) + """, chefe de gabinete """ + self.ProcessGabinete(data) + "\n\n"
+		strOut = """Em """ + self.GetDateFromId() + """,  """ + self.ProcessName1(data) + """ substitui """ + self.ProcessName2(data) + """, chefe de gabinete """ + self.ProcessGabinete(data) + """ de """ + self.ProcessPeriod(data)+ "\n\n"
 		self.records.append(strOut.encode("utf-8"))
 		with open(self.fileName, "a") as fd:
 			 fd.write(strOut.encode("utf-8"))
@@ -38,14 +38,17 @@ class ProcessorSubstituicaoChefeDeGabinete(ResponseProcessor):
 		    message += "\r\n".join(self.records)
 		return message
 
-	def ProcessName1(self, data):		
+	def ProcessName1(self, data):
 		return data[0]
 	
 	def ProcessName2(self, data):
 		return data[1]
+
+	def ProcessPeriod(self, data):		
+		return data[3]
     
 	def ProcessGabinete(self, data):		
-		gabineteRe = re.search("(Secretaria|Subprefeitura|Superintend.ncia)\s*,?\s*([^,]*)", data[2], re.I)
+		gabineteRe = re.search("(Controladoria|Secretaria|Subprefeitura|Superintend.ncia)\s*,?\s*([^,]*)", data[2], re.I)
 		if gabineteRe is not None:
 		    gabineteFromData = gabineteRe.group(0)
 		    gabineteFromData = "da " + gabineteFromData
