@@ -68,9 +68,7 @@ Argumentos:
 		tree = parse(configFileName)
 		self.username = tree.find("./User").text
 		self.password = tree.find("./Password").text
-		self.frommail = tree.find("./From").text
-		self.serverAddr = tree.find("./ServerAddress").text	
-		self.serverPort = int(tree.find("./ServerPort").text)
+		self.frommail = tree.find("./From").text		
 		self.subject = tree.find("./Subject").text
 		self.header = tree.find("./Header").text
 		self.footer = tree.find("./Footer").text

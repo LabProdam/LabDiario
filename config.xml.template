@@ -3,8 +3,6 @@
     <Password></Password>
     <From></From>
     <SubjectPrefix>LabProdam Mailer Robot - </SubjectPrefix>
-    <ServerAddress></ServerAddress>
-    <ServerPort></ServerPort>
     <To>
 	<Email></Email>	
     </To>
