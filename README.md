@@ -17,7 +17,8 @@ Antes de Usar
 Requisitos
 ----------
 
-- Python 2.7
+- [Python 2.7](https://www.python.org/download/releases/2.7/)
+- [Mechanize](http://wwwsearch.sourceforge.net/mechanize)
 - Conta gmail válida para envio de e-mails.
 
 Uso
