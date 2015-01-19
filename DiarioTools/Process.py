@@ -75,6 +75,7 @@ class ResponseProcessor(object):
 			if self.configuration.mode == "local search":#Meaning start/end dates were not passed
 			    for response in self.parseObject.Parse(doc['texto']):
 				    self.Persist(response)
+			    self.Iterate()
 			elif (self.lastSearch is not None and
 			    self.lastSearch.IsNewer(doc['id']) and 
 			    IsNewer(doc['id'], self.configuration.baseDate)):
@@ -82,9 +83,11 @@ class ResponseProcessor(object):
 			    self.lastSearch.SetCandidate(doc['id'])
 			    for response in self.parseObject.Parse(doc['texto']):
 				    self.Persist(response)
+			    self.Iterate()
 			else:			   
 			    Log.Log("Iteration Over")
 			    return
+			
 
 	def ProcessEnd(self):
 	    """To be implemented by subs"""
@@ -122,6 +125,13 @@ class ResponseProcessor(object):
 		    dateFromId = self.doc["id"]
 		return dateFromId
 		
+	def GetSecretaty(self):
+		return self.doc["secretaria"]
+
 	def Persist(self, data):
+		"""To be implemented on child"""
+		pass
+
+	def Iterate(self):
 		"""To be implemented on child"""
 		pass

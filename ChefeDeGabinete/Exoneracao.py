@@ -24,6 +24,7 @@ class ProcessorExoneracaoChefeDeGabinete(ResponseProcessor):
 			 fd.write("*** Exonerações ***\r\n")
 		
 	def Persist(self, data):
+	    if len(data) > 0:
 		strOut = """Em """ + self.GetDateFromId() + """,  """ + self.ProcessName(data) + """ foi exonerado do cargo Chefe de Gabinete """ + self.ProcessGabinete(data) + "\n\n"
 		self.records.append(strOut.encode("utf-8"))
 		with open(self.fileName, "a") as fd:

@@ -13,18 +13,28 @@ class GenericParser(object):
 		"""Override this method"""
 		pass
 	
-	def AddExpression(self, reExpression, groupsOfInterest, flags = None):
-		self.expressions.append((reExpression, groupsOfInterest, flags))
+	def AddExpression(self, reExpression, groupsOfInterest, flags = None, count = -1):
+		self.expressions.append((reExpression, groupsOfInterest, flags, count))
 				
+	
 	def Parse(self, content):		
-		for expression, groupsOfInterest, flags in self.expressions:
+		for expression, groupsOfInterest, flags, count in self.expressions:			
 			if flags is not None:
 				matches = re.finditer(expression, content, flags) 
 			else:
 				matches = re.finditer(expression, content)			
 			
-			for match in matches:				
+			yieldResult = False
+			for num, match in enumerate(matches):
+				if count >= 0 and num >= count:
+				    break
 				matchGroups = []
 				for group in groupsOfInterest:
 					matchGroups.append(match.group(group))
-				yield matchGroups			
+				yield matchGroups
+				yieldResult = True
+
+			if not yieldResult:
+			    #yield empty response for keeping control when group is over 
+			    yield []
+			

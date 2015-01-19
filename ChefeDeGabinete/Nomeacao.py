@@ -24,6 +24,7 @@ class ProcessorNomeacaoChefeDeGabinete(ResponseProcessor):
 			 fd.write("*** Nomeações ***\r\n")
 		
 	def Persist(self, data):
+	    if len(data) > 0:
 		strOut = """Em """ + self.GetDateFromId() + """,  """ + self.ProcessName(data) + """ foi nomeado Chefe de Gabinete """ + self.ProcessGabinete(data) + "\n\n"
 		self.records.append(strOut.encode("utf-8"))
 		with open(self.fileName, "a") as fd:
@@ -38,7 +39,7 @@ class ProcessorNomeacaoChefeDeGabinete(ResponseProcessor):
 		    message += "\r\n".join(self.records)
 		return message
 
-	def ProcessName(self, data):
+	def ProcessName(self, data):		
 		return data[0]
     
 	def ProcessGabinete(self, data):
