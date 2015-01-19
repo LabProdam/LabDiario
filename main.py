@@ -12,19 +12,19 @@ import sys
 def HandleNomeacao(configInstance):
     searcher = SearchNomeacaoChefeDeGabinete(configInstance, True)
     parser = ParseNomeacaoChefeDeGabinete()
-    processor = ProcessorNomeacaoChefeDeGabinete(configInstance, searcher, parser, "registroNomeacoes.log", "NomeacaoChefeDeGabinete")
+    processor = ProcessorNomeacaoChefeDeGabinete(configInstance, searcher, parser, configInstance.logName, "NomeacaoChefeDeGabinete")
     return processor.Process()
 
 def HandleExoneracao(configInstance):
     searcher = SearchExoneracaoChefeDeGabinete(configInstance, True)
     parser = ParseExoneracaoChefeDeGabinete()
-    processor = ProcessorExoneracaoChefeDeGabinete(configInstance, searcher, parser, "registroExoneracoes.log", "ExoneracaoChefeDeGabinete")
+    processor = ProcessorExoneracaoChefeDeGabinete(configInstance, searcher, parser, configInstance.logName, "ExoneracaoChefeDeGabinete")
     return processor.Process()
 
 def HandleSubstituicao(configInstance):
     searcher = SearchSubstituicaoChefeDeGabinete(configInstance, True)
     parser = ParseSubstituicaoChefeDeGabinete()
-    processor = ProcessorSubstituicaoChefeDeGabinete(configInstance, searcher, parser, "registroSubstituicao.log", "SubstituicaoChefeDeGabinete")
+    processor = ProcessorSubstituicaoChefeDeGabinete(configInstance, searcher, parser, configInstance.logName, "SubstituicaoChefeDeGabinete")
     return processor.Process()
 
 try:

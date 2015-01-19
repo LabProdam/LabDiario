@@ -10,9 +10,9 @@ class ParseNomeacaoChefeDeGabinete(GenericParser):
 		self.AddExpression("^\s*Nomear.*?(senhora|senhor)\s*([^,]*).*?Chefe de Gabinete.(.*)", [2,3], re.I|re.M)
 
 class SearchNomeacaoChefeDeGabinete(DlSearch):
-	def SetOptions(self):
-		self.options["f[orgao_facet][]"] = u"TITULOS DE NOMEA\u00C7\u00C3O".encode("utf-8")		
-		self.options["sort"] = u"data desc"		
+	def SetOptions(self):		
+		self.options["sort"] = u"data desc"
+		self.query = "nomeação chefe de gabinete"
 
 class ProcessorNomeacaoChefeDeGabinete(ResponseProcessor):
 	def __init__(self, configInstance, searchObject, parseObject, fileName, sessionName):
