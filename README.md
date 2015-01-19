@@ -45,8 +45,6 @@ Dentro do arquivo *config.xml* deve constar:
 - **Password**: senha da conta de e-mail utilizada para postar resultados;
 - **From**: e-mail remetente;
 - **Subject**: assunto do e-mail de resultados;
-- **ServerAddress**: endereço do servidor SMTP utilizado para enviar e-mails;
-- **ServerPort**: porta do servidor SMTP utilizado para enviar e-mails;
 - **To**: lista de destinatários. Cada um dentro de seu respectivo **Email**;
 - **Header**: cabeçalho do e-mail de resultados;
 - **Footer**: rodapé do e-mail de resultados;
@@ -66,5 +64,6 @@ nova busca é necessário herdar de *DlSearch* para incluir as opções de busca
 *GenericParser* para incluir as expressões regulares que filtrarão os resultados
 e herdar de  *ResponseProcessor*, implementando um método *Persist* (que 
 receberá como parâmetro os grupos de interesse determinados pela expressão 
-regular em *GenericParser* e deve ser responsável pela saída de dados desejada) e 
+regular em *GenericParser* e deve ser responsável pela saída de dados desejada), 
+*Iterate* (disparado no fim do processamento de cada doc) e 
 *ProcessEnd* caso necessário.
