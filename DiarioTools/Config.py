@@ -75,6 +75,9 @@ Argumentos:
 		self.baseDate = tree.find("./BaseDate").text
 		self.proxy = tree.find("./Proxy").text
 		self.logName = tree.find("./LogName").text
+		self.timeout = float(tree.find("./Timeout").text)
+		self.retries = int(tree.find("./Retries").text)
+		self.timeBetweenRetries = float(tree.find("./TimeBetweenRetries").text)
 		self._ProcessCleanLogs(tree.find("./LogMode").text, self.logName)		
 		
 		emails = tree.findall("./To/Email")

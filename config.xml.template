@@ -1,4 +1,5 @@
 <MailerConfig>
+    <!-- Mail sending information -->
     <User></User>
     <Password></Password>
     <From></From>
@@ -11,7 +12,16 @@
 LabProdam</Footer>
     <BaseDate>2014/11/27</BaseDate> <!-- AAAA/MM/DD . Will stop before this date
  when initial/final dates are not explicited!-->
+    
+    <!-- Connection information -->
     <Proxy></Proxy> <!-- http proxy only, eg: http://localhost:8080. Empty for none-->
+
+    <!-- Logging -->
     <LogName>ChefesDeGabinete.log</LogName>
-    <LogMode>Overwrite</LogMode> <!-- Overwrite / Append -->    
+    <LogMode>Overwrite</LogMode> <!-- Overwrite / Append -->
+
+    <!-- Error tolerance -->
+    <Timeout>20</Timeout> <!-- in seconds -->
+    <Retries>3</Retries>
+    <TimeBetweenRetries>1800</TimeBetweenRetries><!-- in seconds -->
 </MailerConfig>

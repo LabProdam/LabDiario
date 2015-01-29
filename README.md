@@ -41,6 +41,8 @@ Configuração
 
 Dentro do arquivo *config.xml* deve constar:
 
+**Configuração de E-mail**
+
 - **User**: usuário da conta de e-mail utilizada para postar resultados;
 - **Password**: senha da conta de e-mail utilizada para postar resultados;
 - **From**: e-mail remetente;
@@ -50,11 +52,25 @@ Dentro do arquivo *config.xml* deve constar:
 - **Footer**: rodapé do e-mail de resultados;
 - **BaseDate**: especifica data de parada da ferramenta no caso da primeira
 execução;
+
+**Configuração de Rede**
+
 - **Proxy**: endereço do proxy não autenticado da rede. Deixar em branco caso
 não haja proxy;
-- **LogName**: nome do arquivo de log local.;
+
+**Configuração de Logs**
+
+- **LogName**: nome do arquivo de log local;
 - **LogMode**: determina se o arquivo de log deve ser atualizado (*Append*) ou 
 sobrescrito (*Overwrite*) após cada execução;
+
+**Configuração de Tolerância a Erros**
+
+- **Timeout**: tempo máximo (em segundos) de espera por dados em conexão ativa;
+- **Retries**: número máximo de tentativas em caso de transbordo de tempo de 
+espera;
+- **TimeBetweenRetries**: intervalo (em segundos) de espera entre tentativas no
+caso de transbordo do tempo de espera;
 
 Desenvolvedores
 ---------------
