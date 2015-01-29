@@ -12,7 +12,7 @@ class ParseSubstituicaoChefeDeGabinete(GenericParser):
 class SearchSubstituicaoChefeDeGabinete(DlSearch):
 	def SetOptions(self):		
 		self.options["sort"] = u"data desc"
-		self.query = "substituir chefe de gabinete"		
+		self.query = "substituir \"chefe de gabinete\""		
 
 class ProcessorSubstituicaoChefeDeGabinete(ResponseProcessor):
 	def __init__(self, configInstance, searchObject, parseObject, fileName, sessionName):
@@ -49,7 +49,7 @@ class ProcessorSubstituicaoChefeDeGabinete(ResponseProcessor):
 		return data[3]
     
 	def ProcessGabinete(self, data):		
-		gabineteRe = re.search("(Controladoria|Secretaria|Subprefeitura|Superintend.ncia)\s*,?\s*([^,]*)", data[2], re.I)
+		gabineteRe = re.search("(Funda..o|Controladoria|Secretaria|Subprefeitura|Superintend.ncia)\s*,?\s*(([^\.](?! constante))*)", data[2], re.I)
 		if gabineteRe is not None:
 		    gabineteFromData = gabineteRe.group(0)
 		    gabineteFromData = "da " + gabineteFromData
@@ -64,7 +64,7 @@ class ProcessorSubstituicaoChefeDeGabinete(ResponseProcessor):
 			    gabineteFromData = gabineteRe.group(1)			
 			else:
 			    gabineteFromData = data[2]
-			    gabineteFromData = re.sub("s.mbolo \w*,", "", gabineteFromData, re.I)
-			    gabineteFromData = re.sub(",?\s*constante.*$", "", gabineteFromData, re.I)
+			    gabineteFromData = re.sub("s.mbolo \w*,", "", gabineteFromData, re.I)			    
 			    gabineteFromData = re.sub(",?\s*da Chefia de Gabinete[^,]*x", "", gabineteFromData, re.I)
+		gabineteFromData = re.sub(",?\s*constante.*$", "", gabineteFromData, re.I)
 		return gabineteFromData
