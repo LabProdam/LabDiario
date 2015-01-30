@@ -70,7 +70,7 @@ class ResponseProcessor(object):
 		    if len(parsedVal["response"]["docs"]) == 0:
 			    break
 		    
-		    for doc in docs:
+		    for doc in docs:			
 			self.doc = doc
 			if self.configuration.mode == "local search":#Meaning start/end dates were not passed
 			    for response in self.parseObject.Parse(doc['texto']):
@@ -125,8 +125,14 @@ class ResponseProcessor(object):
 		    dateFromId = self.doc["id"]
 		return dateFromId
 		
-	def GetSecretaty(self):
+	def GetSecretary(self):
 		return self.doc["secretaria"]
+
+	def GetOrgan(self):
+		return self.doc["orgao"]
+
+	def GetType(self):
+		return self.doc["tipo_conteudo"]
 
 	def Persist(self, data):
 		"""To be implemented on child"""

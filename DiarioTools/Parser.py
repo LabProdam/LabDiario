@@ -25,7 +25,7 @@ class GenericParser(object):
 				matches = re.finditer(expression, content)			
 			
 			yieldResult = False
-			for num, match in enumerate(matches):
+			for num, match in enumerate(matches):				
 				if count >= 0 and num >= count:
 				    break
 				matchGroups = []
