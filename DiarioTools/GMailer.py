@@ -13,17 +13,23 @@ class GMailerWrappper(object):
 			Log.Warning("Configuração inválida. Não será possível mandar e-mails")
 		else:
 			self.config = configInstance
+		self.attach = []
 		
+	def AttachFile(self, fileName):
+	    self.attach.append(fileName)
+
 	def Send(self, message):
-		mailer = GMailer()		
+		mailer = GMailer()
+		sendMessage = self.config.header + "\r\n\r\n" + message + "\r\n\r\n" + self.config.footer
 		
 		if self.config.proxy is not None and len(self.config.proxy) > 0:
 			proxies = {"http": self.config.proxy, "https": self.config.proxy}
 			mailer.SetProxies(proxies)			
-		
+		for file in self.attach:
+		    mailer.AttachFile(file)
 		mailer.SetLoginInfo(self.config.username, self.config.password)
-		mailer.SendEmail(self.config.destination, self.config.subject.encode("utf-8"), message)
-	
+		mailer.SendEmail(self.config.destination, self.config.subject.encode("utf-8"), sendMessage)
+
 class GMailer:
 	"""Sends e-mail through gmail. Set login info, proxy if necessary and 
 	just send the e-mail"""
@@ -31,6 +37,7 @@ class GMailer:
 		self.email = None
 		self.password = None
 		self.proxies = None
+		self.attach = []
 		
 	def SetLoginInfo(self, email, password):
 		self.email = email
@@ -44,6 +51,9 @@ class GMailer:
 		self._Authenticate(connection)
 		self._SendEmail(connection, to, subject, body)
 		
+	def AttachFile(self, filePath):
+		self.attach.append(filePath)
+
 	def _InitComm(self):
 		try:
 			# Browser
@@ -116,15 +126,24 @@ class GMailer:
 			link = br.links(text_regex="Escrever.*?e-mail").next()
 			br.follow_link(link)
 				
-			#Write E-Mail
-			br.select_form(predicate=lambda form: form.method == "POST")
+			#Attach files
+			if len(self.attach) > 0:
+			    br.select_form(predicate=lambda form: form.method == "POST")
+			    br.submit(name="nvp_bu_amf")
 
+			    br.select_form(predicate=lambda form: form.method == "POST")
+			    for num, fileName in enumerate(self.attach):
+				fieldName = 'file' + str(num + 1)
+				br.form.add_file(open(fileName), "text/plain", fileName, fieldName)
+			    br.submit()
+			
+			#Write Contents
+			br.select_form(predicate=lambda form: form.method == "POST")
 			br.form['to'] = ";".join(to)
 			br.form['subject'] = subject
 			br.form['body'] = body
 			br.submit()
-		except:
+		except Exception as e:			
 			traceback.print_stack()
 			Log.Warning("Excepted while sending e-mail")
-			exit(1)
-			
+			exit(1)	

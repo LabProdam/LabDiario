@@ -6,20 +6,14 @@ from DiarioTools.Process import *
 from DiarioTools.Search import *
 import re
 
-wordsOfInterest = ["Prodam",
-		   "Pro-dam",
-		   "EMPRESA DE TECNOLOGIA DA INFORMAÇÃO E COMUNICAÇÃO",
-		   "Empresa de Tecnologia da Informação e Comunicação",
-		   "Emp. Tec. da Informação e Comunicação",
-		   "CNPJ 43.076.702/0001-61",
-		   "CNPJ 43076702/0001-61"
+wordsOfInterest = ["SUSPENSAS DE PARTICIPAÇÃO EM LICITAÇÃO E IMPEDIDAS DE CONTRATAR COM A ADMINISTRAÇÃO"
 		 ]
 
-class ParseProdam(GenericParser):
+class ParseSuspensas(GenericParser):
 	def Initialize(self):
 		self.AddExpression(".+", [0], re.I|re.S)
 		
-class SearchProdam(DlSearch):
+class SearchSuspensas(DlSearch):
 	global wordsOfInterest
 	def SetOptions(self):		
 		self.options["sort"] = u"data desc"
@@ -29,16 +23,16 @@ class SearchProdam(DlSearch):
 		    query += "\"" + word + "\" "
 		self.query = query
 
-class ProcessorProdam(ResponseProcessor):
+class ProcessorSuspensas(ResponseProcessor):
 	def __init__(self, configInstance, searchObject, parseObject, fileName, sessionName):
-		super(ProcessorProdam, self).__init__(configInstance, searchObject, parseObject, sessionName)
+		super(ProcessorSuspensas, self).__init__(configInstance, searchObject, parseObject, sessionName)
 		self.fileName = fileName
 		self.data = ""
 		self.atLeadOneFound = False
 		self.dlProcessor = DlTagsProcessor(wordsOfInterest)
 
 		with open(self.fileName, "a") as fd:
-			 fd.write("*** Prodam ***\r\n")
+			 fd.write("*** Suspensas ***\r\n")
 		self.data += """
 		<!DOCTYPE HTML>
 		<html>
@@ -97,7 +91,7 @@ class ProcessorProdam(ResponseProcessor):
 		
 	def Persist(self, data):
 	    self.atLeadOneFound = True
-	    contents = data[0].encode("utf-8")
+	    contents =data[0].encode("utf-8")
 	    with open(self.fileName, "a") as fd:
 		 fd.write(contents)
 
@@ -111,8 +105,12 @@ class ProcessorProdam(ResponseProcessor):
 		<tr><td class="element-name">SECRETARIA</td><td><span class="header-value">""" + self.GetSecretary().encode("utf-8") + """</span></td></tr>
 		<tr><td class="element-name">ÓRGÃO</td><td><span class="header-value">""" + self.GetOrgan().encode("utf-8") + """</span></td></tr>
 		</table>
-	    """ + self.dlProcessor.Process(contents) + """</div>\n\n"""
+	    """ +  self.dlProcessor.Process(contents) + """</div>\n\n"""
 	    self.data += "</div><br/>"
+
+	def ProcessEnd(self):
+	    self.data += "</html>"
+	    return self.data
 
 	def ProcessEnd(self):
 	    if not self.atLeadOneFound:
@@ -120,4 +118,3 @@ class ProcessorProdam(ResponseProcessor):
 	    else:
 		self.data += "</html>"
 		return self.data
-

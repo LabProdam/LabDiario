@@ -39,11 +39,11 @@ enviado. Apenas o log será atualizado.
 Configuração
 ------------
 
-Dentro do arquivo *config.xml* deve constar:
+Dentro do arquivo *config.xml* presente no diretório Config deve constar:
 
 **Configuração de E-mail**
 
-- **User**: usuário da conta de e-mail utilizada para postar resultados;
+- **Username**: usuário da conta de e-mail utilizada para postar resultados;
 - **Password**: senha da conta de e-mail utilizada para postar resultados;
 - **From**: e-mail remetente;
 - **Subject**: assunto do e-mail de resultados;

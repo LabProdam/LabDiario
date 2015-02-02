@@ -3,4 +3,6 @@
 *.pk
 *.swp
 *.orig
+*.htm
+*.html
 config*.xml

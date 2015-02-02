@@ -1,6 +1,6 @@
 <MailerConfig>
     <!-- Mail sending information -->
-    <User></User>
+    <Username></Username>
     <Password></Password>
     <From></From>
     <SubjectPrefix>LabProdam Mailer Robot - </SubjectPrefix>
@@ -17,7 +17,7 @@ LabProdam</Footer>
     <Proxy></Proxy> <!-- http proxy only, eg: http://localhost:8080. Empty for none-->
 
     <!-- Logging -->
-    <LogName>ChefesDeGabinete.log</LogName>
+    <LogName>filename.log</LogName>
     <LogMode>Overwrite</LogMode> <!-- Overwrite / Append -->
 
     <!-- Error tolerance -->

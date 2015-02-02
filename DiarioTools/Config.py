@@ -6,6 +6,12 @@ import os
 import re
 import getopt
 
+manualTypes = ["Timeout",
+	       "Retries",
+	       "TimeBetweenRetries",
+	       "LogMode",
+	       "To"]
+
 validConfig = False
 def IfValidConfig(func):
     def decorated(*args, **kwargs):	
@@ -20,6 +26,9 @@ class Configuration(object):
 	self._ProcessConfigFile(configFileName)
 	self._ProcessArgs(args)
 	
+    def AppendConfigurationFile(self, configfileName):
+	self._ProcessConfigFile(configfileName)
+
     def _ProcessArgs(self, args):
 	self.startDate = None
 	self.endDate = None
@@ -66,19 +75,24 @@ Argumentos:
 	if os.path.exists(configFileName):
 	    try:
 		tree = parse(configFileName)
-		self.username = tree.find("./User").text
-		self.password = tree.find("./Password").text
-		self.frommail = tree.find("./From").text		
-		self.subject = tree.find("./Subject").text
-		self.header = tree.find("./Header").text
-		self.footer = tree.find("./Footer").text
-		self.baseDate = tree.find("./BaseDate").text
-		self.proxy = tree.find("./Proxy").text
-		self.logName = tree.find("./LogName").text
-		self.timeout = float(tree.find("./Timeout").text)
-		self.retries = int(tree.find("./Retries").text)
-		self.timeBetweenRetries = float(tree.find("./TimeBetweenRetries").text)
-		self._ProcessCleanLogs(tree.find("./LogMode").text, self.logName)		
+		types = tree.findall("./*")
+
+		#automatically transform xml elements into attributes (lowering
+		#first letter ex LogName becomes logName
+		for configType in types:		    
+		    if configType.tag not in manualTypes:			
+			configName = configType.tag[0].lower() + configType.tag[1:]
+			setattr(self, configName, configType.text)		
+
+		#manual types
+		if tree.find("./Timeout") is not None:
+		    self.timeout = float(tree.find("./Timeout").text)
+		if tree.find("./Retries") is not None:
+		    self.retries = int(tree.find("./Retries").text)
+		if tree.find("./TimeBetweenRetries") is not None:
+		    self.timeBetweenRetries = float(tree.find("./TimeBetweenRetries").text)
+		if tree.find("./LogMode") is not None:
+		    self._ProcessCleanLogs(tree.find("./LogMode").text, self.logName)		
 		
 		emails = tree.findall("./To/Email")
 		for email in emails:

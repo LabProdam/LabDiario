@@ -30,7 +30,7 @@ def ProcessId(id):
     if idRe is not None:
 	id = int(idRe.group(1) + idRe.group(2) + idRe.group(3)) 
     else:
-	raise "Invalid Id"
+	raise Exception("Invalid Id: " + id)
     return id
 
 class LastSearch(object):

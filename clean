@@ -2,3 +2,4 @@
 rm -Rf `find . -name "*.pyc"`
 rm -Rf *.pk
 rm -Rf *.log
+rm -Rf *.html
