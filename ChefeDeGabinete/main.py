@@ -10,25 +10,30 @@ import datetime
 import sys
 import os
 
+logName = "Default.log"
+
 def HandleNomeacao(configInstance):
     searcher = SearchNomeacaoChefeDeGabinete(configInstance, True)
     parser = ParseNomeacaoChefeDeGabinete()
-    processor = ProcessorNomeacaoChefeDeGabinete(configInstance, searcher, parser, configInstance.logName, "NomeacaoChefeDeGabinete")
+    processor = ProcessorNomeacaoChefeDeGabinete(configInstance, searcher, parser, logName, "NomeacaoChefeDeGabinete")
     return processor.Process()
 
 def HandleExoneracao(configInstance):
     searcher = SearchExoneracaoChefeDeGabinete(configInstance, True)
     parser = ParseExoneracaoChefeDeGabinete()
-    processor = ProcessorExoneracaoChefeDeGabinete(configInstance, searcher, parser, configInstance.logName, "ExoneracaoChefeDeGabinete")
+    processor = ProcessorExoneracaoChefeDeGabinete(configInstance, searcher, parser, logName, "ExoneracaoChefeDeGabinete")
     return processor.Process()
 
 def HandleSubstituicao(configInstance):
     searcher = SearchSubstituicaoChefeDeGabinete(configInstance, True)
     parser = ParseSubstituicaoChefeDeGabinete()
-    processor = ProcessorSubstituicaoChefeDeGabinete(configInstance, searcher, parser, configInstance.logName, "SubstituicaoChefeDeGabinete")
+    processor = ProcessorSubstituicaoChefeDeGabinete(configInstance, searcher, parser, logName, "SubstituicaoChefeDeGabinete")
     return processor.Process()
 
-def Run():
+def Run(localLogName = "Default.log"):
+    global logName
+    logName = localLogName
+
     try:
 	config = Configuration(os.path.join("Config","config.xml"), sys.argv) 
 	config.AppendConfigurationFile(os.path.join("Config","chefesdegabinete.xml"))

@@ -74,7 +74,6 @@ não haja proxy;
 
 **Configuração de Logs**
 
-- **LogName**: nome do arquivo de log local;
 - **LogMode**: determina se o arquivo de log deve ser atualizado (*Append*) ou 
 sobrescrito (*Overwrite*) após cada execução;
 

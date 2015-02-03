@@ -139,7 +139,7 @@ class GMailer:
 			
 			#Write Contents
 			br.select_form(predicate=lambda form: form.method == "POST")
-			br.form['to'] = ";".join(to)
+			br.form['bcc'] = ";".join(to)
 			br.form['subject'] = subject
 			br.form['body'] = body
 			br.submit()

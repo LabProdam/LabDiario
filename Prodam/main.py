@@ -8,25 +8,28 @@ import datetime
 import sys
 import os
 
+logName = "Default.log"
 def HandleProdam(configInstance):
     searcher = SearchProdam(configInstance, True)
     parser = ParseProdam()
-    processor = ProcessorProdam(configInstance, searcher, parser, configInstance.logName, "Prodam")    
+    processor = ProcessorProdam(configInstance, searcher, parser, logName, "Prodam")    
     return processor.Process()
 
 def HandleAdmIndireta(configInstance):
     searcher = SearchAdmIndireta(configInstance, True)
     parser = ParseAdmIndireta()
-    processor = ProcessorAdmIndireta(configInstance, searcher, parser, configInstance.logName, "AdmIndireta")    
+    processor = ProcessorAdmIndireta(configInstance, searcher, parser, logName, "AdmIndireta")    
     return processor.Process()
 
 def HandleSuspensas(configInstance):
     searcher = SearchSuspensas(configInstance, True)
     parser = ParseSuspensas()
-    processor = ProcessorSuspensas(configInstance, searcher, parser, configInstance.logName, "Suspensas")    
+    processor = ProcessorSuspensas(configInstance, searcher, parser, logName, "Suspensas")    
     return processor.Process()
 
-def Run():
+def Run(localLogName = "Default.log"):
+	global logName
+	logName = localLogName
 
 	config = Configuration(os.path.join("Config", "config.xml"), sys.argv)
 	config.AppendConfigurationFile(os.path.join("Config","prodam.xml"))

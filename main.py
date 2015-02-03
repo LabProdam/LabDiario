@@ -10,4 +10,4 @@ cfg = Config.Configuration("Config/config.xml", sys.argv)
 for moduleName in cfg.modules:
     Log.Log("Importing :" + moduleName)
     module = __import__(moduleName, fromlist = ["main"])
-    module.main.Run()
+    module.main.Run(moduleName + ".log")

@@ -16,8 +16,7 @@ LabProdam</Footer>
     <!-- Connection information -->
     <Proxy></Proxy> <!-- http proxy only, eg: http://localhost:8080. Empty for none-->
 
-    <!-- Logging -->
-    <LogName>filename.log</LogName>
+    <!-- Logging -->    
     <LogMode>Overwrite</LogMode> <!-- Overwrite / Append -->
 
     <!-- Error tolerance -->
