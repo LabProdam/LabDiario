@@ -1,18 +1,31 @@
-ProdamLab - Chefes de Gabinete
-==========================================
+ProdamLab - Busca Diário Livre
+==============================
+
+Busca expressões dentro do Diário Oficial do município de São Paulo através da
+ferramenta [DiárioLivre](http://devcolab.each.usp.br/do/).
+
+Pacotes
+-------
+
+###ChefeDeGabinete
 
 Busca Nomeações, Exonerações e Substituições de Chefes de Gabinetes das 
-secretarias do município de São Paulo
- no [DiárioLivre](http://devcolab.each.usp.br/do/).
+secretarias do município de São Paulo.
 Faz uma busca completa até a data configurada na primeira vez e apenas busca 
 informações novas nas 
 execuções subsequentes
+
+###Prodam
+
+Busca entradas relacionadas com a *Prodam*, bem como elementos relacionados com
+a administração indireta e também empresas suspensas de participação em 
+licitações e impedidas de contratar com a administração.
 
 Antes de Usar
 -------------
 
 - Renomear config.xml.template para config.xml
-- Editar configurações de envio de e-mail em config.xml
+- Editar configurações em config.xml
 
 Requisitos
 ----------
@@ -39,7 +52,8 @@ enviado. Apenas o log será atualizado.
 Configuração
 ------------
 
-Dentro do arquivo *config.xml* presente no diretório Config deve constar:
+Dentro do arquivo *config.xml* ou no arquivo de configuração específico de cada 
+pacote, presentes no diretório Config, deve constar:
 
 **Configuração de E-mail**
 
@@ -71,6 +85,11 @@ sobrescrito (*Overwrite*) após cada execução;
 espera;
 - **TimeBetweenRetries**: intervalo (em segundos) de espera entre tentativas no
 caso de transbordo do tempo de espera;
+
+**Módulos**
+
+- **Name**: cada pacote a ser carregado deve estar nesta lista. Os pacotes
+devem ter um módulo principal *main* e uma funcção *Run* como ponto de entrada.
 
 Desenvolvedores
 ---------------

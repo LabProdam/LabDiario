@@ -24,4 +24,10 @@ LabProdam</Footer>
     <Timeout>20</Timeout> <!-- in seconds -->
     <Retries>3</Retries>
     <TimeBetweenRetries>1800</TimeBetweenRetries><!-- in seconds -->
+
+    <!-- Modules to be Loaded -->
+    <Modules>
+	<!--Name>Prodam</Name-->	
+	<!--Name>ChefeDeGabinete</Name-->	
+    </Modules>
 </MailerConfig>

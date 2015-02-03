@@ -2,6 +2,7 @@
 #coding: utf-8
 from Prodam import *
 from Suspensas import *
+from AdmIndireta import *
 from DiarioTools.GMailer import *
 import datetime
 import sys
@@ -11,6 +12,12 @@ def HandleProdam(configInstance):
     searcher = SearchProdam(configInstance, True)
     parser = ParseProdam()
     processor = ProcessorProdam(configInstance, searcher, parser, configInstance.logName, "Prodam")    
+    return processor.Process()
+
+def HandleAdmIndireta(configInstance):
+    searcher = SearchAdmIndireta(configInstance, True)
+    parser = ParseAdmIndireta()
+    processor = ProcessorAdmIndireta(configInstance, searcher, parser, configInstance.logName, "AdmIndireta")    
     return processor.Process()
 
 def HandleSuspensas(configInstance):
@@ -39,16 +46,27 @@ def Run():
 	else:
 	    mail += "\tNenhuma ocorrência relativa à Prodam encontrada no período.\r\n\r\n"
 
-	Log.Log("Searching Suspensas")
-	messages = HandleSuspensas(config)
+	Log.Log("Searching Adm Indireta")
+	messages = HandleAdmIndireta(config)
 	if messages is not None:
-	    fileName = "EmpresasSuspensas.html"
-	    mail += "\tFavor conferir o documento " + fileName + " anexado para informações relativas ao período.\r\n"
+	    fileName = "AdmIndireta.html"
+	    mail += "\tFavor conferir o documento " + fileName + " anexado para informações relativas ao período.\r\n\r\n"
 	    htmlFiles.append(fileName)
 	    with open(fileName, "w") as fd:
 		fd.write(messages)
 	else:
-	    mail += "\tNenhuma ocorrência relativa a empresas suspensas encontrada no período.\r\n"
+	    mail += "\tNenhuma ocorrência relativa à administração indireta encontrada no período.\r\n\r\n"
+
+	Log.Log("Searching Suspensas")
+	messages = HandleSuspensas(config)
+	if messages is not None:
+	    fileName = "EmpresasSuspensas.html"
+	    mail += "\tFavor conferir o documento " + fileName + " anexado para informações relativas ao período."
+	    htmlFiles.append(fileName)
+	    with open(fileName, "w") as fd:
+		fd.write(messages)
+	else:
+	    mail += "\tNenhuma ocorrência relativa a empresas suspensas encontrada no período."
 	
 	if (config.mode == "alert mode"):
 	   

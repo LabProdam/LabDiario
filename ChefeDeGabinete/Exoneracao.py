@@ -25,7 +25,7 @@ class ProcessorExoneracaoChefeDeGabinete(ResponseProcessor):
 		
 	def Persist(self, data):
 	    if len(data) > 0:
-		strOut = """Em """ + self.GetDateFromId() + """,  """ + self.ProcessName(data) + """ foi exonerado do cargo Chefe de Gabinete """ + self.ProcessGabinete(data) + "\n\n"
+		strOut = """Em """ + self.GetDateFromId() + """,  """ + self.ProcessName(data) + """ foi exonerado do cargo Chefe de Gabinete """ + self.ProcessGabinete(data) + "\n"
 		self.records.append(strOut.encode("utf-8"))
 		with open(self.fileName, "a") as fd:
 			 fd.write(strOut.encode("utf-8"))
@@ -37,6 +37,7 @@ class ProcessorExoneracaoChefeDeGabinete(ResponseProcessor):
 		    Log.Log("Sem Alterações")
 		else:
 		    message += "\r\n".join(self.records)
+		    message += "\r\n"
 		return message
 
 	def ProcessName(self, data):

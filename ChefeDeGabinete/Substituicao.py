@@ -25,7 +25,7 @@ class ProcessorSubstituicaoChefeDeGabinete(ResponseProcessor):
 		
 	def Persist(self, data):
 	    if len(data) > 0:
-		strOut = """Em """ + self.GetDateFromId() + """,  """ + self.ProcessName1(data) + """ substitui """ + self.ProcessName2(data) + """, chefe de gabinete """ + self.ProcessGabinete(data) + """ de """ + self.ProcessPeriod(data)+ "\n\n"
+		strOut = """Em """ + self.GetDateFromId() + """,  """ + self.ProcessName1(data) + """ substitui """ + self.ProcessName2(data) + """, chefe de gabinete """ + self.ProcessGabinete(data) + """ de """ + self.ProcessPeriod(data)+ "\n"
 		self.records.append(strOut.encode("utf-8"))
 		with open(self.fileName, "a") as fd:
 			 fd.write(strOut.encode("utf-8"))
@@ -37,6 +37,7 @@ class ProcessorSubstituicaoChefeDeGabinete(ResponseProcessor):
 		    Log.Log("Sem Alterações")
 		else:
 		    message += "\r\n".join(self.records)
+		    message += "\r\n"
 		return message
 
 	def ProcessName1(self, data):

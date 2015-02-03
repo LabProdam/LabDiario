@@ -10,7 +10,8 @@ manualTypes = ["Timeout",
 	       "Retries",
 	       "TimeBetweenRetries",
 	       "LogMode",
-	       "To"]
+	       "To",
+	       "Modules"]
 
 validConfig = False
 def IfValidConfig(func):
@@ -23,6 +24,7 @@ class Configuration(object):
     """ Basic configuration. Read from xml and make available in config instance"""
     def __init__(self,configFileName, args):
 	self.destination = []
+	self.modules = []
 	self._ProcessConfigFile(configFileName)
 	self._ProcessArgs(args)
 	
@@ -97,6 +99,10 @@ Argumentos:
 		emails = tree.findall("./To/Email")
 		for email in emails:
 		    self.AddDestination(email.text)
+
+		modules = tree.findall("./Modules/Name")
+		for module in modules:
+		    self.AddModule(module.text)
 		
 		validConfig = True
 	    except Exception as ex:
@@ -113,3 +119,6 @@ Argumentos:
 
     def AddDestination(self, email):
 	self.destination.append(email)
+
+    def AddModule(self, modulesName):
+	self.modules.append(modulesName)
