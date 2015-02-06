@@ -22,7 +22,8 @@ def IfValidConfig(func):
 
 class Configuration(object):
     """ Basic configuration. Read from xml and make available in config instance"""
-    def __init__(self,configFileName, args):
+    def __init__(self,configFileName, args, logName = None):
+	self.logName = logName
 	self.destination = []
 	self.modules = []
 	self._ProcessConfigFile(configFileName)
@@ -94,7 +95,7 @@ Argumentos:
 		if tree.find("./TimeBetweenRetries") is not None:
 		    self.timeBetweenRetries = float(tree.find("./TimeBetweenRetries").text)
 		if tree.find("./LogMode") is not None:
-		    self._ProcessCleanLogs(tree.find("./LogMode").text, self.logName)		
+		    self._ProcessCleanLogs(tree.find("./LogMode").text)		
 		
 		emails = tree.findall("./To/Email")
 		for email in emails:
@@ -112,10 +113,10 @@ Argumentos:
 	    Log.Warning("Arquivo de configuração não encontrado")
 	    exit(1)
 
-    def _ProcessCleanLogs(self, logMode, logName):
-	if re.search("Overwrite", logMode, re.I) is not None:
-	    if os.path.exists(logName):
-		os.remove(logName)
+    def _ProcessCleanLogs(self, logMode):
+	if self.logName is not None and re.search("Overwrite", logMode, re.I) is not None:
+	    if os.path.exists(self.logName):
+		os.remove(self.logName)
 
     def AddDestination(self, email):
 	self.destination.append(email)

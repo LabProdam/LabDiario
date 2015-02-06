@@ -31,7 +31,7 @@ def Run(localLogName = "Default.log"):
 	global logName
 	logName = localLogName
 
-	config = Configuration(os.path.join("Config", "config.xml"), sys.argv)
+	config = Configuration(os.path.join("Config", "config.xml"), sys.argv, logName)
 	config.AppendConfigurationFile(os.path.join("Config","prodam.xml"))
 
 	htmlFiles = []

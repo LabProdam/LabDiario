@@ -145,5 +145,5 @@ class GMailer:
 			br.submit()
 		except Exception as e:			
 			traceback.print_stack()
-			Log.Warning("Excepted while sending e-mail")
-			exit(1)	
+			Log.Warning("Excepted while sending e-mail:" + str(e))
+			raise

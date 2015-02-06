@@ -35,7 +35,7 @@ def Run(localLogName = "Default.log"):
     logName = localLogName
 
     try:
-	config = Configuration(os.path.join("Config","config.xml"), sys.argv) 
+	config = Configuration(os.path.join("Config","config.xml"), sys.argv, logName) 
 	config.AppendConfigurationFile(os.path.join("Config","chefesdegabinete.xml"))
 	Log.Log("Searching Nomeacoes")
 	messages = HandleNomeacao(config)
