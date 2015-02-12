@@ -25,8 +25,6 @@ class DlTagsProcessor(object):
 	self.tags = [bold]
 
     def Process(self, text):
-	global wordsOfInterest
-
 	parsedText = text
 	for tag in self.tags:
 	    parsedText = tag.Apply(parsedText)
