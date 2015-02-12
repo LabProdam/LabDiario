@@ -4,6 +4,8 @@ from DiarioTools import Config
 from DiarioTools.Log import Log
 import sys
 
+import Backup
+Backup.Backup()
 
 cfg = Config.Configuration("Config/config.xml", sys.argv)
 #Load and run modules present in config.xml
@@ -11,3 +13,4 @@ for moduleName in cfg.modules:
     Log.Log("Importing :" + moduleName)
     module = __import__(moduleName, fromlist = ["main"])
     module.main.Run(moduleName + ".log")
+
