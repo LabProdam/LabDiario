@@ -9,6 +9,9 @@ import re
 wordsOfInterest = ["SUSPENSAS DE PARTICIPAÇÃO EM LICITAÇÃO E IMPEDIDAS DE CONTRATAR COM A ADMINISTRAÇÃO"
 		 ]
 
+reOfInterest = ["SUSPENSAS DE PARTICIPA..O EM LICITA..O E IMPEDIDAS DE CONTRATAR COM A ADMINISTRA..O"
+		 ]
+
 class ParseSuspensas(GenericParser):
 	def Initialize(self):
 		self.AddExpression(".+", [0], re.I|re.S)
@@ -29,7 +32,7 @@ class ProcessorSuspensas(ResponseProcessor):
 		self.fileName = fileName
 		self.data = ""
 		self.atLeadOneFound = False
-		self.dlProcessor = DlTagsProcessor(wordsOfInterest)
+		self.dlProcessor = DlTagsProcessor(reOfInterest)
 
 		with open(self.fileName, "a") as fd:
 			 fd.write("*** Suspensas ***\r\n")

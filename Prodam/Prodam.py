@@ -8,9 +8,16 @@ import re
 
 wordsOfInterest = ["Prodam",
 		   "Pro-dam",
-		   "EMPRESA DE TECNOLOGIA DA INFORMAÇÃO E COMUNICAÇÃO",
-		   "Empresa de Tecnologia da Informação e Comunicação",
+		   "EMPRESA DE TECNOLOGIA DA INFORMAÇÃO E COMUNICAÇÃO",		   
 		   "Emp. Tec. da Informação e Comunicação",
+		   "CNPJ 43.076.702/0001-61",
+		   "CNPJ 43076702/0001-61"
+		 ]
+
+reOfInterest = ["Prodam",
+		   "Pro-dam",
+		   "EMPRESA DE TECNOLOGIA DA INFORMA..O E COMUNICA..O",		   
+		   "Emp. Tec. da Informa..o e Comunica..o",
 		   "CNPJ 43.076.702/0001-61",
 		   "CNPJ 43076702/0001-61"
 		 ]
@@ -35,7 +42,7 @@ class ProcessorProdam(ResponseProcessor):
 		self.fileName = fileName
 		self.data = ""
 		self.atLeadOneFound = False
-		self.dlProcessor = DlTagsProcessor(wordsOfInterest)
+		self.dlProcessor = DlTagsProcessor(reOfInterest)
 
 		with open(self.fileName, "a") as fd:
 			 fd.write("*** Prodam ***\r\n")

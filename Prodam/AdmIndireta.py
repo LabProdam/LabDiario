@@ -7,6 +7,7 @@ from DiarioTools.Search import *
 import re
 		    
 wordsOfInterest = ["Administração Indireta"]
+reOfInterest = ["Administra..o Indireta"]
 
 class ParseAdmIndireta(GenericParser):
 	def Initialize(self):
@@ -30,7 +31,7 @@ class ProcessorAdmIndireta(ResponseProcessor):
 		self.fileName = fileName
 		self.data = ""
 		self.atLeadOneFound = False
-		self.dlProcessor = DlTagsProcessor(wordsOfInterest)
+		self.dlProcessor = DlTagsProcessor(reOfInterest)
 
 		with open(self.fileName, "a") as fd:
 			 fd.write("*** Administração indireta ***\r\n")

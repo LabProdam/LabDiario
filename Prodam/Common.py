@@ -19,9 +19,9 @@ class Tag(object):
 	return newText
 
 class DlTagsProcessor(object):
-    def __init__(self, wordsOfInterest):
+    def __init__(self, reOfInterest):
 	bold = Tag("NG", "<b>", "CL", "</b>")
-	self.wordsOfInterest = wordsOfInterest
+	self.reOfInterest = reOfInterest
 	self.tags = [bold]
 
     def Process(self, text):
@@ -40,8 +40,9 @@ class DlTagsProcessor(object):
 
 	
 	for line in parsedText.splitlines():
-	    for word in self.wordsOfInterest:
-		if re.search(word, line, re.I) is not None:
-		    parsedText = parsedText.replace(line, "<span style='background-color: #ffff00'>" + line + "</span>")
+	    for word in self.reOfInterest:		
+		if re.search(word, line, re.I) is not None:		
+		    expression = re.search("[^\>]*" + word + "[^\<]*", line, re.I).group(0)
+		    parsedText = parsedText.replace(expression, "<span style='background-color: #ffff00'>" + expression + "</span>")
 		    break
 	return parsedText
