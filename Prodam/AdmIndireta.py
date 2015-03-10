@@ -7,7 +7,7 @@ from DiarioTools.Search import *
 import re
 		    
 wordsOfInterest = ["Administração Indireta"]
-reOfInterest = ["Administra..o Indireta"]
+reOfInterest = ["Prodam", "Administra..o Indireta"]
 
 class ParseAdmIndireta(GenericParser):
 	def Initialize(self):
