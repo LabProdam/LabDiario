@@ -3,6 +3,7 @@
 from Prodam import *
 from Suspensas import *
 from AdmIndireta import *
+from GabineteDoPrefeito import *
 from DiarioTools.GMailer import *
 import datetime
 import sys
@@ -26,6 +27,17 @@ def HandleSuspensas(configInstance):
     parser = ParseSuspensas()
     processor = ProcessorSuspensas(configInstance, searcher, parser, logName, "Suspensas")    
     return processor.Process()
+    
+def HandleGabineteDoPrefeito(configInstance):
+    searchers = [SearchGabPrefeito("DESPACHOS DO PREFEITO", configInstance, True),
+		 SearchGabPrefeito("PORTARIAS", configInstance, True),
+		 SearchGabPrefeito("DECRETOS", configInstance, True),
+		 SearchGabPrefeito("GABINETE DO PREFEITO - DESPACHOS DO PREFEITO", configInstance, True),
+		 SearchGabPrefeito("GABINETE DO PREFEITO - PORTARIAS", configInstance, True),
+		 SearchGabPrefeito("GABINETE DO PREFEITO - DECRETOS", configInstance, True)]
+    parser = ParseGabPrefeito()
+    processor = ProcessorGabPrefeito(configInstance, searchers, parser, logName, "GabineteDoPrefeito")
+    return processor.Process()    
 
 def Run(localLogName = "Default.log"):
 	global logName
@@ -64,12 +76,23 @@ def Run(localLogName = "Default.log"):
 	messages = HandleSuspensas(config)
 	if messages is not None:
 	    fileName = "EmpresasSuspensas.html"
+	    mail += "\tFavor conferir o documento " + fileName + " anexado para informações relativas ao período.\r\n\r\n"
+	    htmlFiles.append(fileName)
+	    with open(fileName, "w") as fd:
+		fd.write(messages)
+	else:
+	    mail += "\tNenhuma ocorrência relativa a empresas suspensas encontrada no período.\r\n\r\n"
+	    
+	Log.Log("Searching Gabinete do Prefeito")
+	messages = HandleGabineteDoPrefeito(config)
+	if messages is not None:
+	    fileName = "GabineteDoPrefeito.html"
 	    mail += "\tFavor conferir o documento " + fileName + " anexado para informações relativas ao período."
 	    htmlFiles.append(fileName)
 	    with open(fileName, "w") as fd:
 		fd.write(messages)
 	else:
-	    mail += "\tNenhuma ocorrência relativa a empresas suspensas encontrada no período."
+	    mail += "\tNenhuma ocorrência relativa ao gabinete do prefeito encontrada no período."
 	
 	if (config.mode == "alert mode"):
 	   

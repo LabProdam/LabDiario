@@ -107,20 +107,20 @@ class GMailer:
 		try:
 			br = connection
 			#Enter without js enabled
-			#response = br.response().read()
-			#jsForm = None		
-			#forms = re.findall("\<form.*?\</form\>", response, re.I|re.M)
-			#for form in forms:
-			#	if re.search("javascript", form, re.I) is not None:		
-			#		jsForm = form
-			#		break
-					
-			#if jsForm:
-			#	response = br.response()
-			#	response.set_data(jsForm)
-			#	br.set_response(response)
-			#	br.select_form(nr=0)
-			#	br.submit()
+			response = br.response().read()
+			jsForm = None		
+			forms = re.findall("\<form.*?\</form\>", response, re.I|re.M)
+			for form in forms:
+				if re.search("javascript", form, re.I) is not None:		
+					jsForm = form
+					break
+				
+			if jsForm:
+				response = br.response()
+				response.set_data(jsForm)
+				br.set_response(response)
+				br.select_form(nr=0)
+				br.submit()
 				
 			#Select Write E-Mail
 			link = br.links(text_regex="Escrever.*?e-mail").next()

@@ -4,7 +4,6 @@
 from DiarioTools.Log import *
 from DiarioTools.Retriever import *
 from DiarioTools.Parser import *
-from Tkinter import *
 
 
 class DlSearch(object):
