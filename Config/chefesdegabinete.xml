@@ -1,0 +1,5 @@
+<Config>  
+    <Subject>LabProdam - Atualizações - Chefes de Gabinetes</Subject> 
+    <LogName>ChefesDeGabinete.log</LogName>	
+    <LogMode>Overwrite</LogMode> <!-- Overwrite / Append --> 	
+</Config>

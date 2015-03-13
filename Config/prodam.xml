@@ -1,0 +1,5 @@
+<Config>    
+    <Subject>LabProdam - Atualizações - Prodam - Compras/Jurídico</Subject>   
+    <LogName>prodam.log</LogName>	
+    <LogMode>Overwrite</LogMode> <!-- Overwrite / Append --> 
+</Config>
