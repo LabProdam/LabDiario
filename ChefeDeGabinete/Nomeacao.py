@@ -7,7 +7,7 @@ import re
 
 class ParseNomeacaoChefeDeGabinete(GenericParser):
 	def Initialize(self):
-		self.AddExpression("^\s*Nomear.*?(senhora|senhor)\s*([^,]*).*?Chefe de Gabinete.(.*)", [2,3], re.I|re.M)
+		self.AddExpression("^\s*Nomear.*?(senhora|senhor)\s*([^,]*).*?Chefe de Gabinete.(.*)", [2, 3, 0], re.I|re.M)
 
 class SearchNomeacaoChefeDeGabinete(DlSearch):
 	def SetOptions(self):		
@@ -25,7 +25,7 @@ class ProcessorNomeacaoChefeDeGabinete(ResponseProcessor):
 		
 	def Persist(self, data):
 	    if len(data) > 0:
-		strOut = """Em """ + self.GetDateFromId() + """,  """ + self.ProcessName(data) + """ foi nomeado Chefe de Gabinete """ + self.ProcessGabinete(data) + "\n"
+		strOut = """Em """ + self.ProcessDate(data) + """,  """ + self.ProcessName(data) + """ foi nomeado Chefe de Gabinete """ + self.ProcessGabinete(data) + "\n"
 		self.records.append(strOut.encode("utf-8"))
 		with open(self.fileName, "a") as fd:
 			 fd.write(strOut.encode("utf-8"))		 
@@ -63,3 +63,10 @@ class ProcessorNomeacaoChefeDeGabinete(ResponseProcessor):
 			    gabineteFromData = re.sub(",?\s*da Chefia de Gabinete[^,]*x", "", gabineteFromData, re.I)
 		gabineteFromData = re.sub(",?\s*constante.*$", "", gabineteFromData, re.I)
 		return gabineteFromData
+
+	def ProcessDate(self, data):
+		date = self.GetDateFromId()
+		dateRe = re.search("a partir de ([^,]*)", data[2], re.I)
+		if dateRe is not None:
+			date = dateRe.group(1)
+		return date
