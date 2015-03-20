@@ -1,4 +1,4 @@
-ProdamLab - Busca Diário Livre
+LabProdam - LabDiário
 ==============================
 
 Busca expressões dentro do Diário Oficial do município de São Paulo através da
