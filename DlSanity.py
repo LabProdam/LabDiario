@@ -4,6 +4,7 @@ from DiarioTools.Parser import *
 from DiarioTools.Process import *
 from DiarioTools.Search import *
 import re
+import datetime
 
 class ParseSanity(GenericParser):
 	def Initialize(self):
@@ -12,7 +13,16 @@ class ParseSanity(GenericParser):
 class SearchSanity(DlSearch):
 	def SetOptions(self):		
 		self.options["sort"] = u"data desc"
-		self.options["f[data][]"] = u"week_1"
+		self.options["f[data][]"] = u"date_range"
+
+		#Search if there has been an update in the last 7 days
+		now = datetime.datetime.now()
+		delta = datetime.timedelta(days=7)
+		ref = now - delta
+		endDate = "%04d-%02d-%02dT00:00:00.000Z" %(now.year, now.month, now.day)
+		startDate = "%04d-%02d-%02dT00:00:00.000Z" %(ref.year, ref.month, ref.day)
+		self.options["date_range"] = "data:[" + startDate + " TO "+ endDate + "]"
+		self.options["f[data][]"] = "date_range"
 
 class ProcessorSanity(ResponseProcessor):
 	def __init__(self, configInstance, searchObject, parseObject, fileName, sessionName):
